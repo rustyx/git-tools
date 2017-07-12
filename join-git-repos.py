@@ -459,9 +459,9 @@ already_have_submodules = False
 
 # Export the main repository.
 main_spec = getrepospec(args.main)
-print 'Exporting the main repository (' + main_spec['name'] + ')...'
+print 'Exporting ' + main_spec['path'] + '...'
 main_commands = exportrepo(main_spec['path'])
-if move_to_subdirs:
+if move_to_subdirs and main_spec['name'] != '' and main_spec['name'] != '/':
     found_submodules = movetosubdir(main_commands, main_spec['name'])
     if found_submodules:
         assert(not already_have_submodules)
@@ -471,9 +471,9 @@ renamerefs(main_commands)
 # For each secondary repository...
 for secondary in args.secondary:
     secondary_spec = getrepospec(secondary)
-    print '\nExporting ' + secondary_spec['name'] + '...'
+    print '\nExporting ' + secondary_spec['path'] + '...'
     secondary_commands = exportrepo(secondary_spec['path'])
-    if move_to_subdirs:
+    if move_to_subdirs and secondary_spec['name'] != '' and secondary_spec['name'] != '/':
         found_submodules = movetosubdir(secondary_commands, secondary_spec['name'])
         if found_submodules:
             assert(not already_have_submodules)
